@@ -19,12 +19,12 @@ class DBInit(
     }
 
     private fun initdb() {
-        client.query("DROP TABLE IF EXISTS fruits").execute()
-            .flatMap { _ -> client.query("CREATE TABLE fruits (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute() }
-            .flatMap { _ -> client.query("INSERT INTO fruits (name) VALUES ('Kiwi')").execute() }
-            .flatMap { _ -> client.query("INSERT INTO fruits (name) VALUES ('Durian')").execute() }
-            .flatMap { _ -> client.query("INSERT INTO fruits (name) VALUES ('Pomelo')").execute() }
-            .flatMap { _ -> client.query("INSERT INTO fruits (name) VALUES ('Lychee')").execute() }
+        client.query("DROP TABLE IF EXISTS books").execute()
+            .flatMap { _ -> client.query("CREATE TABLE books (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute() }
+            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Kiwi')").execute() }
+            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Durian')").execute() }
+            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Pomelo')").execute() }
+            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Lychee')").execute() }
             .await().indefinitely()
     }
 }
