@@ -1,7 +1,20 @@
 # code-with-quarkus-kotlin
+This project is Quarkus Learning project using Kotlin.
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## The Goal of this project.
+Lightweight skeleton project for Quarkus with Kotlin.
 
+## What is the plan for this project.
+- [ ] MariaDB reactive CRUD sample via native SQL.
+- [ ] MariaDB reactive CRUD sample via Panache.
+- [ ] Request Validation
+- [ ] Rest Client API call
+- [ ] Error handling
+- [ ] Logging
+- [ ] Unit Test
+
+
+-----
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
 ## Running the application in dev mode
