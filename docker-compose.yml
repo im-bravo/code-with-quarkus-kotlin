@@ -1,0 +1,17 @@
+# use docker compose to start mariadb
+version: '3.9'
+
+services:
+  mariadb:
+    image: mariadb:10.11.6
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/data:/var/lib/mysql
