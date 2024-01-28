@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.Response.Status
 import org.demo.ErrorResponseBody
 import org.demo.predicate.IsBadRequestException
 
-@Path("books")
+@Path("/reactive/books")
 class FruitResource() {
 
     @Inject

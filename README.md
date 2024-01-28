@@ -85,7 +85,7 @@ Easily start your Reactive RESTful Web Services
 @ApplicationScoped
 class BookRepository : PanacheRepository<Books>
 
-package org.demo.hibernate
+package org.demo.resource
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
