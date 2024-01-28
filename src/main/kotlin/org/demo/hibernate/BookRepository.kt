@@ -5,4 +5,8 @@ import jakarta.enterprise.context.ApplicationScoped
 
 
 @ApplicationScoped
-class BookRepository : PanacheRepository<Books>
+class BookRepository : PanacheRepository<Books> {
+    fun findByName(name: String): Books? {
+        return find("name", name).firstResult()
+    }
+}

@@ -12,6 +12,7 @@ import jakarta.ws.rs.Path
 import jakarta.ws.rs.PathParam
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
 
 @Path("hibernate/books")
 class BookResource {
@@ -28,8 +29,10 @@ class BookResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    fun getBookById(@PathParam("id") id: Long): Books {
-        return bookRepository.findById(id) ?: throw NotFoundException("Book with id $id not found")
+    fun getBookById(@PathParam("id") id: Long): Response {
+        return bookRepository.findByIdOptional(id)
+            .map { book -> Response.ok(book).build() }
+            .orElse(Response.status(Response.Status.NOT_FOUND).build())
     }
 
     @POST

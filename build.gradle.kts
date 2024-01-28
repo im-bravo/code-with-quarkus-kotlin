@@ -31,7 +31,6 @@ dependencies {
 //    implementation("io.quarkus:quarkus-rest-client-reactive-jackson")
 //    implementation("io.quarkus:quarkus-rest-client-reactive-kotlin-serialization")
 
-
     implementation("io.quarkus:quarkus-reactive-mysql-client")
 
     implementation("io.quarkus:quarkus-hibernate-orm-panache")
@@ -39,7 +38,6 @@ dependencies {
     implementation("io.quarkus:quarkus-jdbc-mariadb")
     implementation("io.quarkus:quarkus-agroal")
 
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
 
     testImplementation("io.quarkus:quarkus-junit5")
