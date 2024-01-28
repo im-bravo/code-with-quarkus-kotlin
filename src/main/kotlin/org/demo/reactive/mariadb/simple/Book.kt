@@ -6,8 +6,10 @@ import io.vertx.mutiny.mysqlclient.MySQLPool
 import io.vertx.mutiny.sqlclient.Row
 import io.vertx.mutiny.sqlclient.Tuple
 import jakarta.validation.constraints.NotBlank
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 class Book {
     var id: Long? = null
     @field:NotBlank(message = "Fruit name must not be blank")

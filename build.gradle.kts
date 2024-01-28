@@ -22,7 +22,7 @@ dependencies {
 
     implementation("io.quarkus:quarkus-resteasy-reactive")
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
-//    implementation("io.quarkus:quarkus-resteasy-reactive-kotlin-serialization")
+    implementation("io.quarkus:quarkus-resteasy-reactive-kotlin-serialization")
 
     // validation
     implementation("io.quarkus:quarkus-hibernate-validator")
@@ -33,6 +33,9 @@ dependencies {
 
 
     implementation("io.quarkus:quarkus-reactive-mysql-client")
+
+    implementation("io.quarkus:quarkus-hibernate-orm-panache")
+//    implementation("io.quarkus:quarkus-panache-common")
     implementation("io.quarkus:quarkus-jdbc-mariadb")
     implementation("io.quarkus:quarkus-agroal")
 

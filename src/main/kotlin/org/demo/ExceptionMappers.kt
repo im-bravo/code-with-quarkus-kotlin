@@ -6,9 +6,11 @@ import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.ext.ExceptionMapper
 import jakarta.ws.rs.ext.Provider
+import kotlinx.serialization.Serializable
 import org.demo.predicate.IsBadRequestException
 import org.jboss.logging.Logger
 
+@Serializable
 data class ErrorResponseBody(val message: String)
 
 @Provider

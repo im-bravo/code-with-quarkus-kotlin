@@ -14,4 +14,4 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./docker/data:/var/lib/mysql
+      - ./docker/data/mariadb:/var/lib/mysql
