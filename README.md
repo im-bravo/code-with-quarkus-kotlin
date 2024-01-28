@@ -5,8 +5,8 @@ This project is Quarkus Learning project using Kotlin.
 Lightweight skeleton project for Quarkus with Kotlin.
 
 ## What is the plan for this project.
-- [ ] MariaDB reactive CRUD sample via native SQL.
-- [ ] MariaDB reactive CRUD sample via Panache.
+~~- [ ] MariaDB reactive CRUD sample via native SQL.~~
+- [x] MariaDB reactive CRUD sample via Panache.
 - [ ] Request Validation
 - [ ] Rest Client API call
 - [ ] Error handling
@@ -78,31 +78,6 @@ Easily start your Reactive RESTful Web Services
 
 
 
-我在使用quarkus+kotlin创建基于MariaDB数据库的CRUD Rest API。
-请基于PanacheRepository帮我制作一个CRUD的API。
-
-```kotlin
-@ApplicationScoped
-class BookRepository : PanacheRepository<Books>
-
-package org.demo.resource
-
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import kotlinx.serialization.Serializable
-
-
-@Entity(name = "books")
-@Serializable
-class Books{
-    @Id
-    @GeneratedValue
-    var id: Long? = null;
-
-    lateinit var name: String
-}
-```
 
 
 
