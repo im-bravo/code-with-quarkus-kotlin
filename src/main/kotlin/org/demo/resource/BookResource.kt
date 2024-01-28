@@ -1,6 +1,8 @@
 package org.demo.resource
 
+import io.quarkus.hibernate.reactive.panache.Panache
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
+import io.smallrye.common.annotation.NonBlocking
 import io.smallrye.mutiny.Uni
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
@@ -52,12 +54,9 @@ class BookResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Transactional
     fun updateBook(@PathParam("id") id: Long, book: Books): Uni<Response> {
-        return bookRepository.updateBook(id, book)
-            .onItem().transform { updatedBook ->
-                if (updatedBook != null) Response.ok(updatedBook) else Response.status(Response.Status.NOT_FOUND)
-            }
+        return Panache.withTransaction { bookRepository.updateBook(id, book) }
+            .onItem().transform { updatedBook: Books -> Response.ok(updatedBook) }
             .onItem().transform { obj: Response.ResponseBuilder -> obj.build() }
     }
 

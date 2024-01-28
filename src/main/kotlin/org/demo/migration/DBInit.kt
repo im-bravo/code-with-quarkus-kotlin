@@ -1,4 +1,4 @@
-package org.demo.reactive.mariadb.simple
+package org.demo.migration
 
 import io.quarkus.runtime.StartupEvent
 import io.vertx.mutiny.mysqlclient.MySQLPool

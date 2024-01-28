@@ -3,6 +3,7 @@ package org.demo.repository
 import io.quarkus.hibernate.reactive.panache.PanacheRepository
 import io.smallrye.mutiny.Uni
 import jakarta.enterprise.context.ApplicationScoped
+import jakarta.transaction.Transactional
 import jakarta.ws.rs.NotFoundException
 import org.demo.entity.Books
 
@@ -13,15 +14,22 @@ class BookRepository : PanacheRepository<Books> {
         return find("name", name).firstResult()
     }
 
-    fun updateBook(id: Long, updatedBook: Books): Uni<Books> {
+
+    fun updateBook(id: Long, book: Books): Uni<Books> {
         return findById(id)
             .onItem().ifNull().failWith(NotFoundException("Book not found"))
             .map { existingBook ->
                 // Update fields selectively (avoiding unnecessary updates)
-                existingBook.name = updatedBook.name
+                existingBook.name = book.name
                 // ... update other fields as needed
                 existingBook
             }
-            .flatMap { filledBook -> persist(filledBook) }
+            .flatMap { updatedBook -> persist(updatedBook) }
+    }
+
+    private fun updateFields(existingBook: Books, updatedBook: Books): Books {
+        existingBook.name = updatedBook.name
+        // Update other fields non-blocking using setters or similar approaches
+        return existingBook
     }
 }
