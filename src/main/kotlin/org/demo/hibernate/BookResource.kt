@@ -28,8 +28,8 @@ class BookResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    fun getBookById(@PathParam("id") id: Long): Books? {
-        return bookRepository.findById(id)
+    fun getBookById(@PathParam("id") id: Long): Books {
+        return bookRepository.findById(id) ?: throw NotFoundException("Book with id $id not found")
     }
 
     @POST
