@@ -75,3 +75,37 @@ If you want to learn more about building native executables, please consult http
 Easily start your Reactive RESTful Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
+
+
+我在使用quarkus+kotlin创建基于MariaDB数据库的CRUD Rest API。
+请基于PanacheRepository帮我制作一个CRUD的API。
+
+```kotlin
+@ApplicationScoped
+class BookRepository : PanacheRepository<Books>
+
+package org.demo.resource
+
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import kotlinx.serialization.Serializable
+
+
+@Entity(name = "books")
+@Serializable
+class Books{
+    @Id
+    @GeneratedValue
+    var id: Long? = null;
+
+    lateinit var name: String
+}
+```
+
+
+
+
+
+

@@ -22,7 +22,7 @@ dependencies {
 
     implementation("io.quarkus:quarkus-resteasy-reactive")
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
-//    implementation("io.quarkus:quarkus-resteasy-reactive-kotlin-serialization")
+    implementation("io.quarkus:quarkus-resteasy-reactive-kotlin-serialization")
 
     // validation
     implementation("io.quarkus:quarkus-hibernate-validator")
@@ -32,11 +32,12 @@ dependencies {
 //    implementation("io.quarkus:quarkus-rest-client-reactive-kotlin-serialization")
 
 
+    implementation("io.quarkus:quarkus-panache-common")
+    implementation("io.quarkus:quarkus-hibernate-reactive-panache")
     implementation("io.quarkus:quarkus-reactive-mysql-client")
     implementation("io.quarkus:quarkus-jdbc-mariadb")
     implementation("io.quarkus:quarkus-agroal")
 
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
 
     testImplementation("io.quarkus:quarkus-junit5")
