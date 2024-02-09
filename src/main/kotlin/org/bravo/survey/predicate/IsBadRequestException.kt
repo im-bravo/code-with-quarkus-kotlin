@@ -1,4 +1,4 @@
-package org.demo.predicate
+package org.bravo.survey.predicate
 
 import jakarta.json.JsonException
 import java.util.function.Predicate

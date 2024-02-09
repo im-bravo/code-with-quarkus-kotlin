@@ -1,4 +1,4 @@
-package org.demo.migration
+package org.bravo.survey.migration
 
 import io.quarkus.runtime.StartupEvent
 import io.vertx.mutiny.mysqlclient.MySQLPool
@@ -14,11 +14,14 @@ class DBInit(
 ) {
     fun onStart(@Observes ev: StartupEvent?) {
         if (schemaCreate) {
-            initdb()
+            initDb()
         }
     }
 
-    private fun initdb() {
+    private fun initDb() {
+//        dropTables()
+//        createTables()
+//        insertData()
         client.query("DROP TABLE IF EXISTS books").execute()
             .flatMap { _ -> client.query("CREATE TABLE books (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute() }
             .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Kiwi')").execute() }
@@ -27,4 +30,28 @@ class DBInit(
             .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Lychee')").execute() }
             .await().indefinitely()
     }
+
+//    private fun insertData() {
+//
+//    }
+//
+//    private fun dropTables() {
+//        client.query("DROP TABLE IF EXISTS survey").execute()
+//            .flatMap { _ -> client.query("DROP TABLE IF EXISTS question").execute() }
+//            .flatMap { _ -> client.query("DROP TABLE IF EXISTS question_choice").execute() }
+//            .flatMap { _ -> client.query("DROP TABLE IF EXISTS answer").execute() }
+//            .flatMap { _ -> client.query("DROP TABLE IF EXISTS answer_detail").execute() }
+//            .await().indefinitely()
+//    }
+//
+//    private fun createTables() {
+//
+//    }
+//
+//    private fun createSurveyTable() {
+//        client.query("CREATE TABLE IF NOT EXISTS survey (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute()
+//            .await().indefinitely()
+//    }
+
+
 }

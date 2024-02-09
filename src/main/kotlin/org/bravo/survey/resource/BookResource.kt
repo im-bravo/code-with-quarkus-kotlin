@@ -1,4 +1,4 @@
-package org.demo.resource
+package org.bravo.survey.resource
 
 import io.quarkus.hibernate.reactive.panache.Panache
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
@@ -15,8 +15,8 @@ import jakarta.ws.rs.PathParam
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
-import org.demo.entity.Books
-import org.demo.repository.BookRepository
+import org.bravo.survey.entity.Books
+import org.bravo.survey.repository.BookRepository
 
 
 @Path("hibernate/books")

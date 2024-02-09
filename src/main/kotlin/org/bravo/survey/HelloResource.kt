@@ -1,4 +1,4 @@
-package org.demo
+package org.bravo.survey
 
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path

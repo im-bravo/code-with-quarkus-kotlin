@@ -14,6 +14,7 @@ repositories {
 val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
+val ulidPackageVersion: String by project
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
@@ -26,6 +27,7 @@ dependencies {
 
     // validation
     implementation("io.quarkus:quarkus-hibernate-validator")
+    implementation("com.aallam.ulid:ulid-kotlin:$ulidPackageVersion")
 
 //    implementation("io.quarkus:quarkus-rest-client-reactive")
 //    implementation("io.quarkus:quarkus-rest-client-reactive-jackson")
