@@ -19,34 +19,38 @@ class DBInit(
     }
 
     private fun initDb() {
-//        dropTables()
-//        createTables()
+        dropTables()
+        createTables()
 //        insertData()
-        client.query("DROP TABLE IF EXISTS books").execute()
-            .flatMap { _ -> client.query("CREATE TABLE books (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute() }
-            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Kiwi')").execute() }
-            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Durian')").execute() }
-            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Pomelo')").execute() }
-            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Lychee')").execute() }
+//        client.query("DROP TABLE IF EXISTS books").execute()
+//            .flatMap { _ -> client.query("CREATE TABLE books (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute() }
+//            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Kiwi')").execute() }
+//            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Durian')").execute() }
+//            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Pomelo')").execute() }
+//            .flatMap { _ -> client.query("INSERT INTO books (name) VALUES ('Lychee')").execute() }
+//            .await().indefinitely()
+    }
+
+    private fun dropTables() {
+        client.query("DROP TABLE IF EXISTS survey").execute()
             .await().indefinitely()
     }
 
-//    private fun insertData() {
-//
-//    }
-//
-//    private fun dropTables() {
-//        client.query("DROP TABLE IF EXISTS survey").execute()
-//            .flatMap { _ -> client.query("DROP TABLE IF EXISTS question").execute() }
-//            .flatMap { _ -> client.query("DROP TABLE IF EXISTS question_choice").execute() }
-//            .flatMap { _ -> client.query("DROP TABLE IF EXISTS answer").execute() }
-//            .flatMap { _ -> client.query("DROP TABLE IF EXISTS answer_detail").execute() }
-//            .await().indefinitely()
-//    }
-//
-//    private fun createTables() {
-//
-//    }
+    private fun createTables() {
+        client.query(CREATE_SURVEY_TABLE).execute()
+            .await().indefinitely()
+    }
+
+    companion object SQLStatements {
+        const val CREATE_SURVEY_TABLE = """
+            CREATE TABLE IF NOT EXISTS survey (
+                id binary(16) PRIMARY KEY,
+                title TEXT NOT NULL,
+                description TEXT,
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+        """
+    }
 //
 //    private fun createSurveyTable() {
 //        client.query("CREATE TABLE IF NOT EXISTS survey (id SERIAL PRIMARY KEY, name TEXT NOT NULL)").execute()
