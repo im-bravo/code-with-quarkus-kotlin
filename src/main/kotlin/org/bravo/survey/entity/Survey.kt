@@ -21,6 +21,7 @@ import org.hibernate.reactive.id.ReactiveIdentifierGenerator
 import org.hibernate.reactive.session.ReactiveConnectionSupplier
 import org.hibernate.type.SqlTypes
 import ulid.ULID
+import java.time.Instant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.CompletableFuture
@@ -56,14 +57,14 @@ class LocalDateSerializer : KSerializer<LocalDate> {
 
 @Entity
 @Serializable
-class Survey : PanacheEntityBase() {
+class Survey24 : PanacheEntityBase() {
     @Id
     @JdbcTypeCode(SqlTypes.BINARY)
     @GenericGenerator(name = "ulid_generator", strategy = "org.bravo.survey.entity.UlidGenerator")
     @GeneratedValue(generator = "ulid_generator")
     @Column(name = "id", columnDefinition = "BINARY(16)")
     @Convert(converter = UlidConverter::class)
-    val id: ULID = ULID.nextULID()
+    val id: ULID? = null
 
     val title: String = ""
 
@@ -71,4 +72,31 @@ class Survey : PanacheEntityBase() {
 
     @Serializable(with = LocalDateSerializer::class)
     val createdAt: LocalDate = LocalDate.now()
+}
+
+@Entity(name = "survey")
+@Serializable
+class Survey(
+
+    val title: String,
+    val description: String? = null,
+//
+//    @Serializable(with = LocalDateSerializer::class)
+//    val createdAt: LocalDate = LocalDate.now()
+) {
+    constructor() : this("", null)
+
+    @Id
+    @JdbcTypeCode(SqlTypes.BINARY)
+    @GenericGenerator(name = "ulid_generator", strategy = "org.bravo.survey.entity.UlidGenerator")
+    @GeneratedValue(generator = "ulid_generator")
+    @Column(name = "id", columnDefinition = "BINARY(16)")
+    @Convert(converter = UlidConverter::class)
+    val id: ULID? = null
+//
+//    val title: String = ""
+//
+//    val description: String? = null
+
+    val createdAt: Instant? = null
 }
