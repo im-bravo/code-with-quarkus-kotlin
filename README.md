@@ -7,7 +7,11 @@ Lightweight skeleton project for Quarkus with Kotlin.
 ## What is the plan for this project.
 ~~- [ ] MariaDB reactive CRUD sample via native SQL.~~
 - [x] MariaDB reactive CRUD sample via Panache.
+- [x] Relational Data operation sample.
 - [ ] Request Validation
+  - [x] Request Validation for Path variable
+  - [ ] Request Validation for Query parameter
+  - [ ] Request Validation for JSON Body
 - [ ] Rest Client API call
 - [ ] Error handling
 - [ ] Logging

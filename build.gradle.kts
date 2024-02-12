@@ -14,18 +14,21 @@ repositories {
 val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
+val ulidPackageVersion: String by project
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-kotlin")
 
+    implementation("io.quarkus:quarkus-jackson")
     implementation("io.quarkus:quarkus-resteasy-reactive")
     implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
     implementation("io.quarkus:quarkus-resteasy-reactive-kotlin-serialization")
 
     // validation
     implementation("io.quarkus:quarkus-hibernate-validator")
+    implementation("com.aallam.ulid:ulid-kotlin:$ulidPackageVersion")
 
 //    implementation("io.quarkus:quarkus-rest-client-reactive")
 //    implementation("io.quarkus:quarkus-rest-client-reactive-jackson")
@@ -66,3 +69,4 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_21.toString()
     kotlinOptions.javaParameters = true
 }
+

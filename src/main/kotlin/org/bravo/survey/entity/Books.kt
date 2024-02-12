@@ -1,4 +1,4 @@
-package org.demo.entity
+package org.bravo.survey.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

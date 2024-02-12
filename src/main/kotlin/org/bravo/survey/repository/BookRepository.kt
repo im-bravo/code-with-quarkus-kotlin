@@ -1,11 +1,11 @@
-package org.demo.repository
+package org.bravo.survey.repository
 
 import io.quarkus.hibernate.reactive.panache.PanacheRepository
 import io.smallrye.mutiny.Uni
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.NotFoundException
-import org.demo.entity.Books
+import org.bravo.survey.entity.Books
 
 
 @ApplicationScoped

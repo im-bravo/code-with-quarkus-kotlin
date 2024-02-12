@@ -1,4 +1,4 @@
-package org.demo
+package org.bravo.survey
 
 import io.quarkus.arc.log.LoggerName
 import jakarta.ws.rs.BadRequestException
@@ -7,7 +7,7 @@ import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.ext.ExceptionMapper
 import jakarta.ws.rs.ext.Provider
 import kotlinx.serialization.Serializable
-import org.demo.predicate.IsBadRequestException
+import org.bravo.survey.predicate.IsBadRequestException
 import org.jboss.logging.Logger
 
 @Serializable
