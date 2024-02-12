@@ -57,6 +57,7 @@ class SurveyController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @WithTransaction
     fun getAllSurvey(): Uni<SurveyListResponse> {
         return service.allSurvey().map { survey ->
             SurveyListResponse(survey)

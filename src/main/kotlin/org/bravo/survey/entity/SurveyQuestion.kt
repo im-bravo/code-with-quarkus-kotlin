@@ -50,7 +50,7 @@ class SurveyQuestion (
     @Column(name = "survey_id", insertable = false, updatable = false)
     val surveyId: ULID = ULID.nextULID()
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST])
     var options: MutableSet<SurveyQuestionOption> = mutableSetOf()
 
     constructor() : this(
