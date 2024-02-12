@@ -45,8 +45,8 @@ class SurveyQuestion (
 
     @JavaType(value = UlidJavaType::class)
     @JdbcTypeCode(SqlTypes.BINARY)
-    @Serializable(with = UlidSerializer::class)
     @Convert(converter = UlidConverter::class)
+    @Serializable(with = UlidSerializer::class)
     @Column(name = "survey_id", insertable = false, updatable = false)
     val surveyId: ULID = ULID.nextULID()
 

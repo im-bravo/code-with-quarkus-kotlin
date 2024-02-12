@@ -13,8 +13,8 @@ import ulid.ULID
 @Serializable
 data class UlidIdentifier (
     @JavaType(value = UlidJavaType::class)
-    @JdbcTypeCode(SqlTypes.BINARY)
     @Convert(converter = UlidConverter::class)
+    @JdbcTypeCode(SqlTypes.BINARY)
     @Column(name = "id", insertable = true, updatable = false)
     @Serializable(with = UlidSerializer::class)
     val id: ULID = ULID.nextULID()
