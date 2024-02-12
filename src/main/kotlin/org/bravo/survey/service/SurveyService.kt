@@ -3,6 +3,7 @@ package org.bravo.survey.service
 import io.smallrye.mutiny.Uni
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
+import org.bravo.survey.controller.response.SurveyDetail
 import org.bravo.survey.entity.Survey
 import org.bravo.survey.entity.SurveyQuestion
 import org.bravo.survey.entity.SurveyQuestionOption
@@ -53,6 +54,35 @@ class SurveyService {
         }
         return surveyRepository.persist(survey).map {
             CreateSurveyOutput(id = it.id.id)
+        }
+    }
+
+    fun allSurvey(): Uni<List<SurveyDetail>> {
+        return surveyRepository.listAll().map { surveys ->
+            surveys.map { survey ->
+                SurveyDetail(
+                    id = survey.id.id.toString(),
+                    title = survey.title,
+                    description = survey.description,
+                    questions = survey.questions.map { question ->
+                        SurveyDetail.Question(
+                            id = question.id.id.toString(),
+                            title = question.title,
+                            description = question.description,
+                            type = question.type,
+                            sort = question.sort,
+                            required = question.required,
+                            options = question.options.map { option ->
+                                SurveyDetail.Question.Option(
+                                    text = option.text,
+                                    value = option.value,
+                                    sort = option.order
+                                )
+                            }.toSet()
+                        )
+                    }.toSet()
+                )
+            }
         }
     }
 }

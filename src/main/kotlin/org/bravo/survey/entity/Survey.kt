@@ -34,7 +34,7 @@ class Survey (
     @Column(name = "description")
     val description: String? = null,
 
-    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
+    @OneToMany(mappedBy = "survey", fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST])
     val questions: MutableSet<SurveyQuestion> = mutableSetOf()
 ) {
     constructor() : this(UlidIdentifier(ULID.nextULID()),"", null)
