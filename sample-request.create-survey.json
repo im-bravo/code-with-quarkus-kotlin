@@ -1,0 +1,55 @@
+{
+  "title": "survey title 1",
+  "description": "ulfdsi",
+  "questions": [
+    {
+      "title": "Question 1",
+      "description": "D it's a question",
+      "type": "checkbox",
+      "sort": 2,
+      "required": true,
+      "options": [
+        {
+          "value": 1,
+          "text": "A",
+          "sort": 1
+        },
+        {
+          "value": 2,
+          "text": "B",
+          "sort": 2
+        },
+        {
+          "value": 3,
+          "text": "C",
+          "sort": 6
+        }
+      ]
+    },
+    {
+      "title": "Question 2",
+      "description": "D it's a question",
+      "type": "radio",
+      "sort": 1,
+      "required": false,
+      "options": [
+        {
+          "value": 1,
+          "text": "RA",
+          "sort": 1
+        },
+        {
+          "value": 2,
+          "text": "RB",
+          "sort": 2
+        },
+        {
+          "value": 3,
+          "text": "RC",
+          "sort": 6
+        }
+      ]
+    }
+
+  ]
+}
