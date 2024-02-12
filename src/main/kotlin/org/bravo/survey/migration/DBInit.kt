@@ -47,7 +47,7 @@ class DBInit(
                 id binary(16) PRIMARY KEY,
                 title TEXT NOT NULL,
                 description TEXT,
-                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
         """
     }

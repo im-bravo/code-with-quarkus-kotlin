@@ -8,10 +8,11 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.hibernate.annotations.GenericGenerator
@@ -21,25 +22,12 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor
 import org.hibernate.generator.BeforeExecutionGenerator
 import org.hibernate.generator.EventType
 import org.hibernate.generator.EventTypeSets.INSERT_ONLY
-import org.hibernate.reactive.id.ReactiveIdentifierGenerator
-import org.hibernate.reactive.session.ReactiveConnectionSupplier
 import org.hibernate.type.SqlTypes
 import org.hibernate.type.descriptor.WrapperOptions
 import org.hibernate.type.descriptor.java.AbstractJavaType
 import ulid.ULID
 import java.time.Instant
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.CompletionStage
-
-
-class UlidGenerator: ReactiveIdentifierGenerator<ULID> {
-    override fun generate(session: ReactiveConnectionSupplier?, entity: Any?): CompletionStage<ULID> {
-        return CompletableFuture.completedStage(ULID.nextULID())
-    }
-}
 
 class UlidJavaType : AbstractJavaType<ULID>(ULID::class.java) {
     override fun <X : Any?> unwrap(value: ULID?, type: Class<X>?, options: WrapperOptions?): X {
@@ -82,33 +70,26 @@ class UlidConverter : AttributeConverter<ULID, ByteArray> {
 }
 
 
-@OptIn(ExperimentalSerializationApi::class)
-@Serializer(forClass = LocalDate::class)
-class LocalDateSerializer : KSerializer<LocalDate> {
-    private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE
 
-    override fun serialize(encoder: Encoder, value: LocalDate) {
-        encoder.encodeString(value.format(formatter))
-    }
-
-    override fun deserialize(decoder: Decoder): LocalDate {
-        return LocalDate.parse(decoder.decodeString(), formatter)
-    }
-}
-
-@OptIn(ExperimentalSerializationApi::class)
-@Serializer(forClass = Instant::class)
 class InstantSerializer : KSerializer<Instant> {
-    private val formatter: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE
-    override fun serialize(encoder: Encoder, value: Instant) {
-        encoder.encodeString(formatter.format(value))
-    }
-
-    override fun deserialize(decoder: Decoder): Instant {
-        return Instant.from(formatter.parse(decoder.decodeString()))
-    }
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("java.time.Instant", PrimitiveKind.STRING)
+    override fun serialize(encoder: Encoder, value: Instant) = encoder.encodeString(value.toString())
+    override fun deserialize(decoder: Decoder): Instant = Instant.parse(decoder.decodeString())
 }
 
+class UlidSerializer : KSerializer<ULID> {
+    override val descriptor: SerialDescriptor
+        get() = PrimitiveSerialDescriptor("ulid.ULID", PrimitiveKind.STRING)
+
+
+    override fun deserialize(decoder: Decoder): ULID {
+        return ULID.fromBytes(decoder.decodeString().toByteArray())
+    }
+
+    override fun serialize(encoder: Encoder, value: ULID) {
+        return encoder.encodeString(value.toString())
+    }
+}
 
 
 @Entity(name = "survey")
@@ -128,9 +109,10 @@ class Survey(
     @GenericGenerator(name = "ulid_generator", strategy = "org.bravo.survey.entity.CustomIdentifierGenerator")
     @Column(name = "id", insertable = true)
     @Convert(converter = UlidConverter::class)
+    @Serializable(with = UlidSerializer::class)
     val id: ULID? = null
 
     @Serializable(with = InstantSerializer::class)
     @Column(name = "created_at", insertable = true, updatable = false)
-    val createdAt: Instant? = null
+    val createdAt: Instant = Instant.now()
 }
