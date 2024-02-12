@@ -58,25 +58,23 @@ class DBInit(
         const val CREATE_QUESTION_TABLE = """
             CREATE TABLE IF NOT EXISTS survey_question (
                 id binary(16) PRIMARY KEY,
-                title TEXT NOT NULL,
-                description TEXT NOT NULL,
-                `type` TEXT NOT NULL,
-                `order` INT NOT NULL DEFAULT 0,
+                title VARCHAR(255) NOT NULL,
+                description VARCHAR(255) NOT NULL,
+                `type` VARCHAR(30) NOT NULL,
+                `sort` INT NOT NULL DEFAULT 0,
                 `required` BOOLEAN NOT NULL,
-                survey_id binary(16) NOT NULL,
-                FOREIGN KEY (survey_id) REFERENCES survey(id)
+                survey_id binary(16) NOT NULL
             )
         """
 
         const val CREATE_OPTION_TABLE = """
             CREATE TABLE IF NOT EXISTS survey_question_option (
                 id binary(16) PRIMARY KEY,
-                text TEXT NOT NULL,
+                text VARCHAR(200) NOT NULL,
                 `value` INT NOT NULL,
-                `order` INT NOT NULL DEFAULT 0,
+                `sort` INT NOT NULL DEFAULT 0,
                 question_id binary(16) NOT NULL,
-                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (question_id) REFERENCES survey_question(id)
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
         """
 

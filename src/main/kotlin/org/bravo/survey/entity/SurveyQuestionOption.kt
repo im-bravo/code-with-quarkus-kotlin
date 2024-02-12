@@ -28,7 +28,7 @@ class SurveyQuestionOption (
     @Column(name = "value")
     val value: Int,
 
-    @Column(name = "order")
+    @Column(name = "sort")
     val order: Int,
 
     @Serializable(with = InstantSerializer::class)

@@ -4,7 +4,6 @@ import io.quarkus.hibernate.reactive.panache.common.WithTransaction
 import io.smallrye.mutiny.Uni
 import jakarta.inject.Inject
 import jakarta.ws.rs.Consumes
-import jakarta.ws.rs.GET
 import jakarta.ws.rs.POST
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
@@ -12,9 +11,6 @@ import jakarta.ws.rs.core.MediaType
 import kotlinx.serialization.Serializable
 import org.bravo.survey.controller.request.CreateSurveyRequest
 import org.bravo.survey.entity.Survey
-import org.bravo.survey.entity.SurveyQuestion
-import org.bravo.survey.entity.SurveyQuestionOption
-import org.bravo.survey.repository.SurveyRepository
 import org.bravo.survey.service.SurveyService
 import org.bravo.survey.service.input.CreateSurveyInput
 import org.bravo.survey.service.input.CreateSurveyOutput
@@ -44,7 +40,7 @@ class Survey2Controller {
                 title = question.title,
                 description = question.description,
                 type = question.type,
-                order = question.order,
+                sort = question.sort,
                 required = question.required,
                 options = mutableSetOf()
             )
@@ -53,7 +49,7 @@ class Survey2Controller {
                     CreateSurveyInput.Question.Option(
                         text = option.text,
                         value = option.value,
-                        order = option.order,
+                        sort = option.sort,
                     )
                 )
             }

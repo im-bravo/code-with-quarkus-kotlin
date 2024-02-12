@@ -6,9 +6,11 @@ import jakarta.inject.Inject
 import org.bravo.survey.entity.Survey
 import org.bravo.survey.entity.SurveyQuestion
 import org.bravo.survey.entity.SurveyQuestionOption
+import org.bravo.survey.entity.UlidIdentifier
 import org.bravo.survey.repository.SurveyRepository
 import org.bravo.survey.service.input.CreateSurveyInput
 import org.bravo.survey.service.input.CreateSurveyOutput
+import ulid.ULID
 
 @ApplicationScoped
 class SurveyService {
@@ -16,8 +18,10 @@ class SurveyService {
     private lateinit var surveyRepository: SurveyRepository
 
     fun createSurvey( input: CreateSurveyInput): Uni<CreateSurveyOutput> {
+        val surveyId = ULID.nextULID()
         val finalQuestions = mutableSetOf<SurveyQuestion>()
         val survey = Survey(
+            id = UlidIdentifier(surveyId),
             title = input.title,
             description = input.description,
             questions = finalQuestions
@@ -25,11 +29,12 @@ class SurveyService {
         input.questions.forEach { question ->
             val finalQuestionOption = mutableSetOf<SurveyQuestionOption>()
             val surveyQuestion = SurveyQuestion(
+                id = UlidIdentifier(ULID.nextULID()),
                 title = question.title,
                 description = question.description,
                 type = question.type,
                 required = question.required,
-                order = question.order,
+                sort = question.sort,
                 survey = survey,
             )
 
@@ -38,7 +43,7 @@ class SurveyService {
                     SurveyQuestionOption(
                         text = option.text,
                         value = option.value,
-                        order = option.order,
+                        order = option.sort,
                         question = surveyQuestion
                     )
                 )
@@ -47,7 +52,7 @@ class SurveyService {
             finalQuestions.add(surveyQuestion)
         }
         return surveyRepository.persist(survey).map {
-            it.id?.let { it1 -> CreateSurveyOutput(id = it1) }
+            CreateSurveyOutput(id = it.id.id)
         }
     }
 }

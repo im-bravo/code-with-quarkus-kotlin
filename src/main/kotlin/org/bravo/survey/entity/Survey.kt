@@ -3,6 +3,7 @@ package org.bravo.survey.entity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
+import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
@@ -19,10 +20,14 @@ import org.hibernate.type.SqlTypes
 import ulid.ULID
 
 
-@Entity
+@Entity(name = "survey")
 @Table(name = "survey")
 @Serializable
 class Survey (
+    @EmbeddedId
+    @Id
+    val id: UlidIdentifier,
+
     @Column(name = "title")
     val title: String,
 
@@ -30,19 +35,19 @@ class Survey (
     val description: String? = null,
 
     @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    val questions: Set<SurveyQuestion> = mutableSetOf()
+    val questions: MutableSet<SurveyQuestion> = mutableSetOf()
 ) {
-    constructor() : this("", null)
+    constructor() : this(UlidIdentifier(ULID.nextULID()),"", null)
 
-    @Id
-    @JavaType(value = UlidJavaType::class)
-    @JdbcTypeCode(SqlTypes.BINARY)
-    @GeneratedValue(generator = "ulid_generator", strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "ulid_generator", strategy = "org.bravo.survey.entity.UlidIdentifierGenerator")
-    @Column(name = "id", insertable = true, updatable = false)
-    @Convert(converter = UlidConverter::class)
-    @Serializable(with = UlidSerializer::class)
-    val id: ULID? = null
+//    @Id
+//    @JavaType(value = UlidJavaType::class)
+//    @JdbcTypeCode(SqlTypes.BINARY)
+//    @GeneratedValue(generator = "ulid_generator", strategy = GenerationType.IDENTITY)
+//    @GenericGenerator(name = "ulid_generator", strategy = "org.bravo.survey.entity.UlidIdentifierGenerator")
+//    @Column(name = "id", insertable = true, updatable = false)
+//    @Convert(converter = UlidConverter::class)
+//    @Serializable(with = UlidSerializer::class)
+//    val id: ULID? = null
 
     @Serializable(with = InstantSerializer::class)
     @Column(name = "created_at", insertable = true, updatable = false)

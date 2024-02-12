@@ -1,7 +1,6 @@
 package org.bravo.survey.controller.request
 
 import kotlinx.serialization.Serializable
-import org.bravo.survey.service.input.CreateSurveyInput
 
 
 @Serializable
@@ -15,7 +14,7 @@ data class CreateSurveyRequest(
         val title: String,
         val description: String?,
         val type: String,
-        val order: Int,
+        val sort: Int,
         val required: Boolean,
         val options: Set<Option>
     ) {
@@ -23,7 +22,7 @@ data class CreateSurveyRequest(
         data class Option(
             val text: String,
             val value: Int,
-            val order: Int
+            val sort: Int
         )
     }
 }
