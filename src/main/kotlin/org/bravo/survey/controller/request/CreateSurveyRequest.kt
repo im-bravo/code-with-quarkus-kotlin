@@ -8,14 +8,16 @@ import org.bravo.survey.service.input.CreateSurveyInput
 data class CreateSurveyRequest(
     val title: String,
     val description: String?,
-    val questions: List<Question>
+    val questions: Set<Question>
 ) {
     @Serializable
     data class Question(
         val title: String,
         val description: String?,
         val type: String,
-        val options: List<Option>
+        val order: Int,
+        val required: Boolean,
+        val options: Set<Option>
     ) {
         @Serializable
         data class Option(

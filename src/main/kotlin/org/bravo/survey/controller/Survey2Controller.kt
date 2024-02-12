@@ -44,6 +44,8 @@ class Survey2Controller {
                 title = question.title,
                 description = question.description,
                 type = question.type,
+                order = question.order,
+                required = question.required,
                 options = mutableSetOf()
             )
             question.options.forEach { option ->

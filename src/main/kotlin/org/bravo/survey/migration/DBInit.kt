@@ -60,9 +60,9 @@ class DBInit(
                 id binary(16) PRIMARY KEY,
                 title TEXT NOT NULL,
                 description TEXT NOT NULL,
-                type TEXT NOT NULL,
-                required BOOLEAN NOT NULL DEFAULT FALSE,
+                `type` TEXT NOT NULL,
                 `order` INT NOT NULL DEFAULT 0,
+                `required` BOOLEAN NOT NULL,
                 survey_id binary(16) NOT NULL,
                 FOREIGN KEY (survey_id) REFERENCES survey(id)
             )

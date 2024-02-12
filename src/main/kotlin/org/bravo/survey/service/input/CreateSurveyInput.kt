@@ -9,6 +9,8 @@ data class CreateSurveyInput(
         val title: String,
         val description: String?,
         val type: String,
+        val order: Int,
+        val required: Boolean,
         val options: MutableSet<Option>
     ) {
         data class Option (

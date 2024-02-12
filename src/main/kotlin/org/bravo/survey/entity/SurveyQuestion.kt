@@ -3,7 +3,6 @@ package org.bravo.survey.entity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
-import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
@@ -24,10 +23,19 @@ import ulid.ULID
 @Table(name = "survey_question")
 @Serializable
 class SurveyQuestion (
+    @Column(name = "title")
     val title: String,
+
+    @Column(name = "description")
     val description: String?,
+
+    @Column(name = "type")
     val type: String,
+
+    @Column(name = "required")
     val required: Boolean = false,
+
+    @Column(name = "order")
     val order: Int = 0,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -45,8 +53,8 @@ class SurveyQuestion (
     @Serializable(with = UlidSerializer::class)
     val id: ULID? = null
 
-    @Column(name = "survey_id", insertable = false, updatable = false)
     @Convert(converter = UlidConverter::class)
+    @Column(name = "survey_id", insertable = false, updatable = false)
     val surveyId: ULID = ULID.nextULID()
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])

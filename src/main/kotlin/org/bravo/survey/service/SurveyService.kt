@@ -28,6 +28,8 @@ class SurveyService {
                 title = question.title,
                 description = question.description,
                 type = question.type,
+                required = question.required,
+                order = question.order,
                 survey = survey,
             )
 
