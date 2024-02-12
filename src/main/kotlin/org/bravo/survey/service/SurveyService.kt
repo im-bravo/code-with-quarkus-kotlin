@@ -1,5 +1,6 @@
 package org.bravo.survey.service
 
+import io.quarkus.panache.common.Sort
 import io.smallrye.mutiny.Uni
 import jakarta.enterprise.context.ApplicationScoped
 import jakarta.inject.Inject
@@ -58,7 +59,7 @@ class SurveyService {
     }
 
     fun allSurvey(): Uni<List<SurveyDetail>> {
-        return surveyRepository.listAll().map { surveys ->
+        return surveyRepository.listAll(Sort.by("id")).map { surveys ->
             surveys.map { survey ->
                 SurveyDetail(
                     id = survey.id.id.toString(),
