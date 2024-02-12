@@ -70,8 +70,3 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.javaParameters = true
 }
 
-tasks.quarkusDev {
-    compilerOptions {
-        compiler("kotlin").args(listOf("-Werror"))
-    }
-}

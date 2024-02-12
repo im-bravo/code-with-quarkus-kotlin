@@ -3,14 +3,16 @@ package org.bravo.survey.entity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
+import jakarta.persistence.EmbeddedId
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import java.time.Instant
 import kotlinx.serialization.Serializable
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.JavaType
@@ -18,21 +20,20 @@ import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import ulid.ULID
 
-
 @Entity
-@Table(name = "survey")
+@Table(name = "survey_question")
 @Serializable
-class Survey (
-    @Column(name = "title")
+class SurveyQuestion (
     val title: String,
+    val description: String?,
+    val type: String,
+    val required: Boolean = false,
+    val order: Int = 0,
 
-    @Column(name = "description")
-    val description: String? = null,
-
-    @OneToMany(mappedBy = "survey", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    val questions: Set<SurveyQuestion> = mutableSetOf()
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "survey_id", referencedColumnName = "id",  updatable = false)
+    val survey: Survey
 ) {
-    constructor() : this("", null)
 
     @Id
     @JavaType(value = UlidJavaType::class)
@@ -44,8 +45,19 @@ class Survey (
     @Serializable(with = UlidSerializer::class)
     val id: ULID? = null
 
-    @Serializable(with = InstantSerializer::class)
-    @Column(name = "created_at", insertable = true, updatable = false)
-    val createdAt: Instant = Instant.now()
+    @Column(name = "survey_id", insertable = false, updatable = false)
+    @Convert(converter = UlidConverter::class)
+    val surveyId: ULID = ULID.nextULID()
 
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
+    var options: MutableSet<SurveyQuestionOption> = mutableSetOf()
+
+    constructor() : this(
+        "",
+        "",
+        "",
+        false,
+        0,
+        Survey()
+    )
 }

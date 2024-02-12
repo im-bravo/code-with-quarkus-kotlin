@@ -32,12 +32,16 @@ class DBInit(
     }
 
     private fun dropTables() {
-        client.query("DROP TABLE IF EXISTS survey").execute()
+        client.query("DROP TABLE IF EXISTS survey_question_option").execute()
+            .flatMap { _ -> client.query("DROP TABLE IF EXISTS survey_question").execute() }
+            .flatMap { _ -> client.query("DROP TABLE IF EXISTS survey").execute() }
             .await().indefinitely()
     }
 
     private fun createTables() {
         client.query(CREATE_SURVEY_TABLE).execute()
+            .flatMap { _ -> client.query(CREATE_QUESTION_TABLE).execute() }
+            .flatMap { _ -> client.query(CREATE_OPTION_TABLE).execute() }
             .await().indefinitely()
     }
 
@@ -50,6 +54,34 @@ class DBInit(
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
         """
+
+        const val CREATE_QUESTION_TABLE = """
+            CREATE TABLE IF NOT EXISTS survey_question (
+                id binary(16) PRIMARY KEY,
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
+                type TEXT NOT NULL,
+                required BOOLEAN NOT NULL DEFAULT FALSE,
+                `order` INT NOT NULL DEFAULT 0,
+                survey_id binary(16) NOT NULL,
+                FOREIGN KEY (survey_id) REFERENCES survey(id)
+            )
+        """
+
+        const val CREATE_OPTION_TABLE = """
+            CREATE TABLE IF NOT EXISTS survey_question_option (
+                id binary(16) PRIMARY KEY,
+                text TEXT NOT NULL,
+                `value` INT NOT NULL,
+                `order` INT NOT NULL DEFAULT 0,
+                question_id binary(16) NOT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (question_id) REFERENCES survey_question(id)
+            )
+        """
+
+
+
     }
 //
 //    private fun createSurveyTable() {

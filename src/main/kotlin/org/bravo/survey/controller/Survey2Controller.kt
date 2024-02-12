@@ -12,7 +12,12 @@ import jakarta.ws.rs.core.MediaType
 import kotlinx.serialization.Serializable
 import org.bravo.survey.controller.request.CreateSurveyRequest
 import org.bravo.survey.entity.Survey
+import org.bravo.survey.entity.SurveyQuestion
+import org.bravo.survey.entity.SurveyQuestionOption
 import org.bravo.survey.repository.SurveyRepository
+import org.bravo.survey.service.SurveyService
+import org.bravo.survey.service.input.CreateSurveyInput
+import org.bravo.survey.service.input.CreateSurveyOutput
 
 
 @Serializable
@@ -22,13 +27,36 @@ data class Survey2ListResponse(val surveys: List<Survey>)
 class Survey2Controller {
 
     @Inject
-    lateinit var surveyRepository: SurveyRepository
+    lateinit var service: SurveyService
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @WithTransaction
-    fun createSurvey(survey: CreateSurveyRequest): Uni<Survey> {
-        TODO("TODO")
+    fun createSurvey(input: CreateSurveyRequest): Uni<CreateSurveyOutput> {
+        val survey = CreateSurveyInput(
+            title = input.title,
+            description = input.description,
+            questions = mutableSetOf()
+        )
+        input.questions.forEach { question ->
+            val surveyQuestion = CreateSurveyInput.Question(
+                title = question.title,
+                description = question.description,
+                type = question.type,
+                options = mutableSetOf()
+            )
+            question.options.forEach { option ->
+                surveyQuestion.options.add(
+                    CreateSurveyInput.Question.Option(
+                        text = option.text,
+                        value = option.value,
+                        order = option.order,
+                    )
+                )
+            }
+            survey.questions.add(surveyQuestion)
+        }
+        return service.createSurvey(survey)
     }
 }
