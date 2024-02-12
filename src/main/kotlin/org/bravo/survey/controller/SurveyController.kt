@@ -9,9 +9,13 @@ import jakarta.ws.rs.POST
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
+import kotlinx.serialization.Serializable
 import org.bravo.survey.entity.Survey
 import org.bravo.survey.repository.SurveyRepository
 
+
+@Serializable
+data class SurveyListResponse(val surveys: List<Survey>)
 
 @Path("survey")
 class SurveyController {
@@ -21,8 +25,10 @@ class SurveyController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun getAllSurvey(): Uni<MutableList<Survey>> {
-        return surveyRepository.listAll()
+    fun getAllSurvey(): Uni<SurveyListResponse> {
+        return surveyRepository.listAll().map { survey ->
+            SurveyListResponse(survey)
+        }
     }
 
     @POST
