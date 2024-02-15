@@ -5,22 +5,27 @@ import jakarta.ws.rs.Path
 import jakarta.ws.rs.PathParam
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
-import ulid.ULID
+import org.jboss.logging.Logger
+import ulid.UlidMonotonicFactory
 
 @Path("/ulid")
-class UlidController {
+class UlidController(
+    val ulidMonotonicFactory: UlidMonotonicFactory
+) {
+    private val LOG: Logger  = Logger.getLogger(UlidController::class.java)
+
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    fun gen() = listOf(
-        ULID.randomULID()
-    )
+    @Produces(MediaType.TEXT_PLAIN)
+    fun gen() = ulidMonotonicFactory.nextULID().also {
+        LOG.info("Generated ULID: $it -> ${it.timestamp}")
+    }
 
     @GET
     @Path("/{num}")
     @Produces(MediaType.APPLICATION_JSON)
     fun genMultiple(@PathParam("num") num: Int) = mutableListOf<String>().let { list ->
         repeat(num) {
-            list.add(ULID.randomULID())
+            list.add(ulidMonotonicFactory.nextULID().toString())
         }
         list
     }

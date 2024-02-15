@@ -5,7 +5,7 @@ import ulid.ULID
 /**
  * Implementation of [ULID.Monotonic] factory.
  */
-internal class ULIDMonotonic(private val factory: ULID.Factory) : ULID.Monotonic {
+class ULIDMonotonic(private val factory: ULID.Factory) : ULID.Monotonic {
 
     override fun nextULID(previous: ULID, timestamp: Long): ULID {
         return when (previous.timestamp) {
