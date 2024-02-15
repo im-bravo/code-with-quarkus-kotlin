@@ -28,7 +28,8 @@ dependencies {
 
     // validation
     implementation("io.quarkus:quarkus-hibernate-validator")
-    implementation("com.aallam.ulid:ulid-kotlin:$ulidPackageVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    //implementation("com.aallam.ulid:ulid-kotlin:$ulidPackageVersion")
 
 //    implementation("io.quarkus:quarkus-rest-client-reactive")
 //    implementation("io.quarkus:quarkus-rest-client-reactive-jackson")
